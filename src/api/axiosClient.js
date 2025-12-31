@@ -13,5 +13,8 @@ if (baseURL) {
   axios.defaults.baseURL = baseURL;
 }
 
+// Enable sending cookies with requests
+axios.defaults.withCredentials = true;
+
 export default axios;
 

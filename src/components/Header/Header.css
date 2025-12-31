@@ -59,7 +59,7 @@
 }
 
 .logo-img {
-  height: 45px;
+  height: 65px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
@@ -198,7 +198,7 @@
   }
   
   .logo-img {
-    height: 32px;
+    height: 45px;
     width: auto;
   }
   
@@ -249,7 +249,7 @@
   }
   
   .logo-img {
-    height: 28px;
+    height: 38px;
   }
   
   .nav-actions {

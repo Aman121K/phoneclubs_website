@@ -27,6 +27,7 @@ import {
   LocationOn,
   Share,
   Flag,
+  Visibility,
 } from '@mui/icons-material';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
@@ -487,8 +488,25 @@ const ListingCard = ({ listing, className, isHome = false }) => {
           </Box>
         </Box>
         
-        {/* Price */}
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        {/* Price and Views */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: '0.25rem' }}>
+          {/* View Count */}
+          {listing.viewCount !== undefined && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+              <Visibility sx={{ fontSize: '0.7rem', color: '#6b7280' }} />
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: '0.65rem',
+                  color: '#6b7280',
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
+                {listing.viewCount || 0} views
+              </Typography>
+            </Box>
+          )}
+          {/* Price */}
           <Typography
             variant="h6"
             sx={{

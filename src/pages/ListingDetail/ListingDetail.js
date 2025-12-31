@@ -32,8 +32,61 @@ const ListingDetail = () => {
   useEffect(() => {
     if (listing) {
       fetchSimilarListings();
+      trackView();
     }
   }, [listing]);
+
+  // Track view for this listing
+  const trackView = async () => {
+    try {
+      // Get device token from cookie or localStorage
+      let deviceToken = getCookie('deviceToken') || localStorage.getItem('deviceToken');
+      
+      const config = {
+        headers: {}
+      };
+      
+      // Add auth token if user is logged in
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      
+      // Add device token to request body if available
+      const body = deviceToken ? { deviceToken } : {};
+      
+      const response = await axios.post(`/api/listings/${id}/view`, body, config);
+      
+      // Store device token if returned
+      if (response.data.deviceToken) {
+        setCookie('deviceToken', response.data.deviceToken, 365);
+        localStorage.setItem('deviceToken', response.data.deviceToken);
+      }
+      
+      // Update view count in listing state
+      if (response.data.viewCount !== undefined) {
+        setListing(prev => prev ? { ...prev, viewCount: response.data.viewCount } : null);
+      }
+    } catch (error) {
+      // Silently fail - don't show error to user
+      console.error('Error tracking view:', error);
+    }
+  };
+
+  // Helper function to get cookie
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
+
+  // Helper function to set cookie
+  const setCookie = (name, value, days) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;SameSite=Lax`;
+  };
 
   const fetchListing = async () => {
     try {
@@ -60,6 +113,7 @@ const ListingDetail = () => {
         ],
         user: { name: 'Ahmed Al Maktoum', city: 'Dubai', phone: '+971501234567' },
         category: { name: 'iPhone 15 Pro Max', slug: 'iphone-15-pro-max', _id: 'cat1' },
+        viewCount: 0,
         createdAt: new Date('2025-01-10')
       };
       setListing(mockListing);
@@ -732,6 +786,15 @@ const ListingDetail = () => {
 
           {/* Listing Metadata */}
           <div className="metadata-section">
+            {listing.viewCount !== undefined && (
+              <div className="info-item">
+                <span className="info-label">
+                  <i className="fas fa-eye" style={{ marginRight: '0.5rem' }}></i>
+                  Views:
+                </span>
+                <span className="info-value">{listing.viewCount || 0}</span>
+              </div>
+            )}
             {listing.createdAt && (
               <div className="info-item">
                 <span className="info-label">Listed On:</span>
