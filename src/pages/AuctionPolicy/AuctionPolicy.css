@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800&display=swap');
+
+.policy-page {
+  font-family: 'Roboto', sans-serif;
+  min-height: calc(100vh - 200px);
+  padding: 2rem 0;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  color: #1e293b;
+  padding: 3rem 1rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-hero h1 {
+  font-size: 2.5rem;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.2;
+  color: #1e293b;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-hero p {
+  font-size: 1.125rem;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #64748b;
+  text-align: center;
+  font-weight: 400;
+  
+  font-family: 'Roboto', sans-serif;
+}
+
+.policy-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.policy-content {
+  background: white;
+  border-radius: 12px;
+  padding: 3rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.policy-section {
+  margin-bottom: 2rem;
+}
+
+.policy-section:last-child {
+  margin-bottom: 0;
+}
+
+.policy-section h2 {
+  font-size: 2rem;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 0.5rem;
+}
+
+.policy-section p {
+  color: #475569;
+  line-height: 1.8;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.policy-item {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #2563eb;
+}
+
+.policy-item h3 {
+  font-size: 1.3rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+}
+
+.policy-item ul,
+.policy-item ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  color: #475569;
+  line-height: 1.8;
+  font-family: 'Roboto', sans-serif;
+}
+
+.policy-item li {
+  margin-bottom: 0.5rem;
+}
+
+.policy-section ul,
+.policy-section ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+  color: #475569;
+  line-height: 1.8;
+  font-family: 'Roboto', sans-serif;
+}
+
+.policy-section li {
+  margin-bottom: 0.5rem;
+}
+
+.policy-section strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.policy-section a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.policy-section a:hover {
+  text-decoration: underline;
+}
+
+.contact-info {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.contact-info li {
+  padding: 0.75rem 0;
+  color: #475569;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.contact-info a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
+.last-updated {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .page-hero h1 {
+    font-size: 2rem;
+  }
+
+  .page-hero p {
+    font-size: 1rem;
+  }
+
+  .policy-container {
+    padding: 0 1rem;
+  }
+
+  .policy-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .policy-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .policy-item {
+    padding: 1rem;
+  }
+
+  .policy-item h3 {
+    font-size: 1.1rem;
+  }
+}
+

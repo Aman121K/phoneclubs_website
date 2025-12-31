@@ -1,0 +1,31 @@
+/* Using Roboto from index.css - no need to import again */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  padding-bottom: 70px; /* Space for bottom nav on mobile */
+  padding-top: 70px; /* Space for header on mobile */
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  .main-content {
+    padding-bottom: 0;
+    padding-top: 80px; /* Space for header */
+  }
+}
+
+/* Ensure footer doesn't overlap bottom nav on mobile */
+@media (max-width: 767px) {
+  .footer {
+    padding-bottom: 100px; /* Space for bottom nav */
+  }
+}
+

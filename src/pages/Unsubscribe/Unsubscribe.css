@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
+
+.unsubscribe-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  font-family: 'Roboto', sans-serif;
+}
+
+.unsubscribe-container {
+  max-width: 500px;
+  width: 100%;
+}
+
+.unsubscribe-card {
+  background: white;
+  border-radius: 16px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.03);
+  text-align: center;
+}
+
+.unsubscribe-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.unsubscribe-icon .fa-check-circle {
+  color: #10b981;
+}
+
+.unsubscribe-icon .fa-exclamation-circle {
+  color: #ef4444;
+}
+
+.unsubscribe-icon .fa-spinner {
+  color: #3b82f6;
+}
+
+.unsubscribe-card h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.unsubscribe-card p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  color: #10b981 !important;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.error-message {
+  color: #ef4444 !important;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.info-text {
+  color: #475569;
+  margin-top: 1.5rem;
+}
+
+.unsubscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.email-input {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.3s;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.unsubscribe-btn {
+  padding: 0.875rem 2rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.unsubscribe-btn:hover {
+  background: #dc2626;
+}
+
+.home-btn {
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 1rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.home-btn.secondary {
+  background: #64748b;
+}
+
+.home-btn.secondary:hover {
+  background: #475569;
+}
+
+@media (max-width: 768px) {
+  .unsubscribe-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .unsubscribe-card h1 {
+    font-size: 1.75rem;
+  }
+  
+  .unsubscribe-icon {
+    font-size: 3rem;
+  }
+}
+

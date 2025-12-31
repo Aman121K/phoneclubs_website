@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800&display=swap');
+
+.fixed-price-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.listings-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  overflow-x: visible;
+  overflow-y: visible;
+  justify-content: flex-start;
+}
+
+.listings-grid > * {
+  flex: 1 1 calc(25% - 1.5rem);
+  min-width: 240px;
+}
+
+@media (min-width: 1400px) {
+  .listings-grid > * {
+    flex-basis: calc(20% - 1.5rem);
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
+  .listings-grid > * {
+    flex-basis: calc(25% - 1.5rem);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .listings-grid > * {
+    flex-basis: calc(33.333% - 1.25rem);
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .listings-grid {
+    gap: 1rem;
+  }
+
+  .listings-grid > * {
+    flex-basis: calc(50% - 1rem);
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 575px) {
+  .listings-grid {
+    gap: 1rem;
+  }
+
+  .listings-grid > * {
+    flex-basis: 100%;
+    min-width: 100%;
+  }
+}
+
+.no-listings {
+  text-align: center;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 8px;
+  color: #7f8c8d;
+  font-family: 'Roboto', sans-serif;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+  .fixed-price-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+}
