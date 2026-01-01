@@ -31,11 +31,14 @@ import {
 import axios from 'axios';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { useFirebase } from '../../context/FirebaseContext';
+import { trackGTMEvent, trackFacebookEvent, trackGoogleAdsConversion } from '../../utils/marketingTags';
 import './AuctionCard.css';
 
 const AuctionCard = ({ auction, onBidSuccess }) => {
   const { info, success, error: showError } = useToast();
   const { user } = useAuth();
+  const { trackEvent } = useFirebase();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
@@ -145,6 +148,28 @@ const AuctionCard = ({ auction, onBidSuccess }) => {
       });
       
       if (response.data.success) {
+        const eventData = {
+          auction_id: auction._id || auction.id,
+          bid_amount: bidValue,
+          current_price: currentPrice,
+          success: true,
+        };
+        
+        trackEvent('bid_placed', eventData);
+        trackGTMEvent('bid_placed', eventData);
+        trackFacebookEvent('InitiateCheckout', {
+          content_name: auction.title,
+          value: bidValue,
+          currency: 'INR',
+          content_type: 'auction',
+        });
+        
+        // Track conversion
+        const conversionLabel = process.env.REACT_APP_GOOGLE_ADS_CONVERSION_LABEL;
+        if (conversionLabel) {
+          trackGoogleAdsConversion(conversionLabel, bidValue, 'INR');
+        }
+        
         setBidAmount('');
         setError('');
         if (onBidSuccess) {
@@ -152,6 +177,14 @@ const AuctionCard = ({ auction, onBidSuccess }) => {
         }
         success('Bid placed successfully!');
       } else {
+        const eventData = {
+          auction_id: auction._id || auction.id,
+          bid_amount: bidValue,
+          error: response.data.error || 'Failed to place bid',
+        };
+        
+        trackEvent('bid_failed', eventData);
+        trackGTMEvent('bid_failed', eventData);
         setError(response.data.error || 'Failed to place bid');
       }
     } catch (error) {

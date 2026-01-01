@@ -11,6 +11,12 @@ import {
 import { ArrowForward } from '@mui/icons-material';
 import ListingCard from '../../components/ListingCard/ListingCard';
 import AuctionCard from '../../components/AuctionCard/AuctionCard';
+import ListingCardSkeleton from '../../components/SkeletonLoaders/ListingCardSkeleton';
+import AuctionCardSkeleton from '../../components/SkeletonLoaders/AuctionCardSkeleton';
+import CategoryCardSkeleton from '../../components/SkeletonLoaders/CategoryCardSkeleton';
+import LocationCardSkeleton from '../../components/SkeletonLoaders/LocationCardSkeleton';
+import { useFirebase } from '../../context/FirebaseContext';
+import { trackGTMEvent, trackFacebookEvent } from '../../utils/marketingTags';
 import './Home.css';
 
 // Small helper to guarantee array operations don't explode in production (e.g. Vercel)
@@ -18,6 +24,7 @@ const toArray = (value) => (Array.isArray(value) ? value : []);
 
 const Home = () => {
   const navigate = useNavigate();
+  const { trackEvent } = useFirebase();
   const [featuredListings, setFeaturedListings] = useState([]);
   const [latestListings, setLatestListings] = useState([]);
   const [similarProducts, setSimilarProducts] = useState([]);
@@ -399,6 +406,22 @@ const Home = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    
+    // Track search event
+    const eventData = {
+      search_query: searchQuery || '',
+      model: selectedModel || '',
+      storage: selectedStorage || '',
+      search_type: 'home_page',
+    };
+    
+    trackEvent('search', eventData);
+    trackGTMEvent('search', eventData);
+    trackFacebookEvent('Search', {
+      search_string: searchQuery || '',
+      content_category: selectedModel || '',
+    });
+    
     // Navigate to search results page
     const params = new URLSearchParams();
     if (searchQuery) params.append('search', searchQuery);
@@ -434,15 +457,140 @@ const Home = () => {
     );
   };
 
+  // Show skeleton loaders while loading
   if (loading) {
     return (
       <div className="home">
-        <div className="loading-container">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading amazing deals near you...</p>
+        {/* Ultimate Hero Section */}
+        <section className="ultimate-hero">
+          <div className="hero-container">
+            <div className="hero-content">
+              <div className="hero-badge">
+                <i className="fas fa-star"></i>
+                India's #1 Phone Marketplace
+              </div>
+              <h1 className="hero-title">
+                Buy & Sell Phones
+                <span> Directly from Verified Sellers</span>
+              </h1>
+              <p className="hero-subtitle">
+                Connect with trusted sellers in your area. Buy and sell iPhones, Android phones with complete confidence.
+              </p>
+            </div>
+            {/* Mega Search Component */}
+            <div className="mega-search">
+              <div className="search-header">
+                <h3 className="search-title">Find Your Perfect Phone</h3>
+              </div>
+              <form className="search-grid">
+                <div className="search-group">
+                  <label className="search-label">Search Phones</label>
+                  <input type="text" className="search-input" placeholder="iPhone 15, Samsung Galaxy..." disabled />
+                </div>
+                <div className="search-group">
+                  <label className="search-label">Model</label>
+                  <select className="search-select" disabled>
+                    <option>All Models</option>
+                  </select>
+                </div>
+                <div className="search-group">
+                  <label className="search-label">Storage</label>
+                  <select className="search-select" disabled>
+                    <option>Any Storage</option>
+                  </select>
+                </div>
+                <button type="button" className="search-btn" disabled>
+                  <i className="fas fa-search"></i>
+                  Search
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Browse Categories Section */}
+        <section className="categories-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif" }}>
+              Browse Phone Categories
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(4)].map((_, index) => (
+              <CategoryCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Single Sell Section */}
+        <section className="single-sell-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif", mb: '0.5rem' }}>
+              Single Phone Listings
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(5)].map((_, index) => (
+              <ListingCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Bulk Sell Section */}
+        <section className="bulk-sell-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif", mb: '0.5rem' }}>
+              Bulk Phone Listings
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(5)].map((_, index) => (
+              <ListingCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Auction Section */}
+        <section className="auction-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif", mb: '0.5rem' }}>
+              Auction
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(5)].map((_, index) => (
+              <AuctionCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Popular Locations */}
+        <section className="locations-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif", mb: '0.5rem' }}>
+              Popular Locations
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(4)].map((_, index) => (
+              <LocationCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
+
+        {/* Latest Ads Section */}
+        <section className="latest-section">
+          <div className="section-header section-header-row">
+            <Typography variant="h2" sx={{ fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', fontFamily: "'Inter', sans-serif", mb: '0.5rem' }}>
+              Latest Ads
+            </Typography>
+          </div>
+          <div className="home-listings-grid">
+            {[...Array(5)].map((_, index) => (
+              <ListingCardSkeleton key={index} />
+            ))}
+          </div>
+        </section>
       </div>
     );
   }

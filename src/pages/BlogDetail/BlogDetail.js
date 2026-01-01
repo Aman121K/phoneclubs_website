@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BlogDetailSkeleton from '../../components/SkeletonLoaders/BlogDetailSkeleton';
 import './BlogDetail.css';
 
 const BlogDetail = () => {
@@ -38,13 +39,7 @@ const BlogDetail = () => {
   };
 
   if (loading) {
-    return (
-      <div className="blog-detail-page">
-        <div className="blog-detail-container">
-          <div className="loading">Loading...</div>
-        </div>
-      </div>
-    );
+    return <BlogDetailSkeleton />;
   }
 
   if (!blog) {

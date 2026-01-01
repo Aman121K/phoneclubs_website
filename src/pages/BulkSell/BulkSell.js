@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ListingCard from '../../components/ListingCard/ListingCard';
+import ListingCardSkeleton from '../../components/SkeletonLoaders/ListingCardSkeleton';
 import './BulkSell.css';
 
 const BulkSell = () => {
@@ -99,10 +100,6 @@ const BulkSell = () => {
     setAppliedFilters(clearedFilters);
   };
 
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
   return (
     <div className="bulk-sell-page">
       <div className="page-header">
@@ -138,6 +135,7 @@ const BulkSell = () => {
                 value={filters.minPrice}
                 onChange={handleFilterChange}
                 className="filter-input"
+                disabled={loading}
               />
               <span className="price-separator">-</span>
               <input
@@ -147,6 +145,7 @@ const BulkSell = () => {
                 value={filters.maxPrice}
                 onChange={handleFilterChange}
                 className="filter-input"
+                disabled={loading}
               />
             </div>
           </div>
@@ -159,6 +158,7 @@ const BulkSell = () => {
               value={filters.condition}
               onChange={handleFilterChange}
               className="filter-select"
+              disabled={loading}
             >
               <option value="">All Conditions</option>
               <option value="Brand New">Brand New</option>
@@ -177,6 +177,7 @@ const BulkSell = () => {
               value={filters.storage}
               onChange={handleFilterChange}
               className="filter-select"
+              disabled={loading}
             >
               <option value="">All Storage</option>
               <option value="64GB">64GB</option>
@@ -195,6 +196,7 @@ const BulkSell = () => {
               value={filters.city}
               onChange={handleFilterChange}
               className="filter-select"
+              disabled={loading}
             >
               <option value="">All Locations</option>
               <option value="Dubai">Dubai</option>
@@ -209,7 +211,7 @@ const BulkSell = () => {
           </div>
 
           {/* Apply Filter Button */}
-          <button onClick={applyFilters} className="apply-filters-btn">
+          <button onClick={applyFilters} className="apply-filters-btn" disabled={loading}>
             Apply Filters
           </button>
           </div>
@@ -218,7 +220,11 @@ const BulkSell = () => {
         {/* Main Content */}
         <div className="listings-main">
           <div className="listings-header">
-            <p className="listings-count">{listings.length} listings found</p>
+            {loading ? (
+              <p className="listings-count">Loading listings...</p>
+            ) : (
+              <p className="listings-count">{listings.length} listings found</p>
+            )}
             {/* Mobile Filter Toggle Button */}
             <button 
               className="mobile-filter-toggle"
@@ -246,6 +252,7 @@ const BulkSell = () => {
                   setAppliedFilters(prev => ({ ...prev, sortBy: e.target.value }));
                 }}
                 className="sort-select"
+                disabled={loading}
               >
                 <option value="newest">Newest to Oldest</option>
                 <option value="oldest">Oldest to Newest</option>
@@ -255,7 +262,13 @@ const BulkSell = () => {
             </div>
           </div>
 
-          {listings.length === 0 ? (
+          {loading ? (
+            <div className="listings-grid">
+              {[...Array(8)].map((_, index) => (
+                <ListingCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : listings.length === 0 ? (
             <div className="no-listings">
               <div className="no-listings-content">
                 <div className="no-listings-emoji">📦</div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BlogCardSkeleton from '../../components/SkeletonLoaders/BlogCardSkeleton';
 import './Blog.css';
 
 const Blog = () => {
@@ -45,20 +46,6 @@ const Blog = () => {
     return tags[0].toUpperCase();
   };
 
-  if (loading) {
-    return (
-      <div className="blog-page">
-        <div className="page-hero">
-          <h1>Our News</h1>
-          <p>Stay updated with the latest news and tips about mobile phones</p>
-        </div>
-        <div className="blog-container">
-          <div className="blog-empty">Loading blogs...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="blog-page">
       <div className="page-hero">
@@ -66,7 +53,13 @@ const Blog = () => {
         <p>Stay updated with the latest news and tips about iPhones</p>
       </div>
       <div className="blog-container">
-        {blogs.length === 0 ? (
+        {loading ? (
+          <div className="blog-grid">
+            {[...Array(6)].map((_, index) => (
+              <BlogCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : blogs.length === 0 ? (
           <div className="blog-empty">
             <p>No blog posts available at the moment. Check back soon!</p>
           </div>

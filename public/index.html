@@ -8,6 +8,21 @@
     <meta name="theme-color" content="#2563eb" />
     <meta name="description" content="PhoneClubs - India's trusted marketplace for buying and selling phones. Browse iPhones, Android phones, and more from verified sellers near you." />
     <title>PhoneClubs - Buy & Sell Phones | iPhone & Android Marketplace</title>
+    
+    <!-- Firebase Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then((registration) => {
+              console.log('Service Worker registered successfully:', registration);
+            })
+            .catch((error) => {
+              console.error('Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

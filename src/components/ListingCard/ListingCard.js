@@ -31,12 +31,15 @@ import {
 } from '@mui/icons-material';
 import { useToast } from '../../context/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import { useFirebase } from '../../context/FirebaseContext';
+import { trackGTMEvent, trackFacebookEvent } from '../../utils/marketingTags';
 import axios from 'axios';
 import './ListingCard.css';
 
 const ListingCard = ({ listing, className, isHome = false }) => {
   const { info, success, error: showError } = useToast();
   const { user } = useAuth();
+  const { trackEvent } = useFirebase();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
@@ -101,6 +104,19 @@ const ListingCard = ({ listing, className, isHome = false }) => {
     e.stopPropagation();
     const listingUrl = `${window.location.origin}${listing.listingType === 'auction' ? '/auction' : '/listing'}/${listing._id || listing.id}`;
     
+    const eventData = {
+      listing_id: listing._id || listing.id,
+      listing_type: listing.listingType || 'fixed_price',
+      method: navigator.share ? 'native_share' : 'clipboard',
+    };
+    
+    trackEvent('share_listing', eventData);
+    trackGTMEvent('share_listing', eventData);
+    trackFacebookEvent('Share', {
+      content_name: listing.title,
+      content_type: 'listing',
+    });
+    
     if (navigator.share) {
       navigator.share({
         title: listing.title,
@@ -161,10 +177,33 @@ const ListingCard = ({ listing, className, isHome = false }) => {
     ? `/auction/${listing._id || listing.id}` 
     : `/listing/${listing._id || listing.id}`;
 
+  const handleCardClick = () => {
+    const eventData = {
+      listing_id: listing._id || listing.id,
+      listing_type: listing.listingType || 'fixed_price',
+      category: listing.category?.name || 'unknown',
+      price: listing.price || 0,
+      is_home: isHome,
+    };
+    
+    trackEvent('view_listing', eventData);
+    
+    // Track to marketing platforms
+    trackGTMEvent('view_listing', eventData);
+    trackFacebookEvent('ViewContent', {
+      content_name: listing.title,
+      content_category: listing.category?.name,
+      content_ids: [listing._id || listing.id],
+      value: listing.price || 0,
+      currency: 'INR',
+    });
+  };
+
   return (
     <Card
       component={showReportDialog ? 'div' : Link}
       to={showReportDialog ? undefined : listingRoute}
+      onClick={handleCardClick}
       className={isHome ? `home-listing-card listing-card ${className || ''}` : `listing-card ${className || ''}`}
       sx={{
         textDecoration: 'none',

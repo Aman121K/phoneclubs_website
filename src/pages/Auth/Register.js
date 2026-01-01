@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useFirebase } from '../../context/FirebaseContext';
+import { trackGTMEvent, trackFacebookEvent, trackLinkedInEvent, trackGoogleAdsConversion } from '../../utils/marketingTags';
 import './Auth.css';
 
 const Register = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { trackEvent } = useFirebase();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -178,8 +181,33 @@ const Register = () => {
     const result = await register(registerData);
     
     if (result.success) {
+      const eventData = {
+        method: 'email',
+        user_type: formData.userType,
+        seller_type: formData.sellerType || null,
+        success: true,
+      };
+      trackEvent('sign_up', eventData);
+      
+      // Track to marketing platforms
+      trackGTMEvent('sign_up', eventData);
+      trackFacebookEvent('CompleteRegistration', {
+        content_name: 'User Registration',
+        status: true,
+      });
+      trackLinkedInEvent('sign_up');
+      
+      // Track conversion if configured
+      const conversionLabel = process.env.REACT_APP_GOOGLE_ADS_CONVERSION_LABEL;
+      if (conversionLabel) {
+        trackGoogleAdsConversion(conversionLabel);
+      }
+      
       navigate('/');
     } else {
+      const eventData = { method: 'email', error: result.error };
+      trackEvent('sign_up_failed', eventData);
+      trackGTMEvent('sign_up_failed', eventData);
       setError(result.error);
     }
     

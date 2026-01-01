@@ -4,11 +4,16 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import { FirebaseProvider } from './context/FirebaseContext';
 import theme from './theme/theme';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import BottomNav from './components/BottomNav/BottomNav';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import PageViewTracker from './components/PageViewTracker/PageViewTracker';
+import MarketingTagsHead from './components/MarketingTags/MarketingTagsHead';
+import MarketingTags from './components/MarketingTags/MarketingTags';
+import GTMNoscript from './components/MarketingTags/GTMNoscript';
 import Home from './pages/Home/Home';
 import Categories from './pages/Categories/Categories';
 import ListingDetail from './pages/ListingDetail/ListingDetail';
@@ -45,49 +50,55 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <ToastProvider>
-          <Router>
-          <ScrollToTop />
-          <div className="App">
-            <Header />
-            <main className="main-content">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/categories" element={<Categories />} />
-                <Route path="/category/:slug" element={<CategoryListings />} />
-                <Route path="/location/:cityName" element={<LocationListings />} />
-                <Route path="/search" element={<SearchResults />} />
-                <Route path="/listing/:id" element={<ListingDetail />} />
-                <Route path="/auctions" element={<Auctions />} />
-                <Route path="/auction/:id" element={<AuctionDetail />} />
-                <Route path="/single-sell" element={<SingleSell />} />
-                <Route path="/bulk-sell" element={<BulkSell />} />
-                <Route path="/locations" element={<Locations />} />
-                <Route path="/post-ad" element={<PostAd />} />
-                <Route path="/edit-listing/:id" element={<EditListing />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogDetail />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/help" element={<Help />} />
-                <Route path="/refund-policy" element={<RefundPolicy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/posting-policy" element={<PostingPolicy />} />
-                <Route path="/auction-policy" element={<AuctionPolicy />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/unsubscribe" element={<Unsubscribe />} />
-              </Routes>
-            </main>
-            <Footer />
-            <BottomNav />
-          </div>
-        </Router>
-        </ToastProvider>
+        <FirebaseProvider>
+          <ToastProvider>
+            <Router>
+              <MarketingTagsHead />
+              <ScrollToTop />
+              <PageViewTracker />
+              <MarketingTags />
+              <GTMNoscript />
+              <div className="App">
+                <Header />
+                <main className="main-content">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/categories" element={<Categories />} />
+                    <Route path="/category/:slug" element={<CategoryListings />} />
+                    <Route path="/location/:cityName" element={<LocationListings />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/listing/:id" element={<ListingDetail />} />
+                    <Route path="/auctions" element={<Auctions />} />
+                    <Route path="/auction/:id" element={<AuctionDetail />} />
+                    <Route path="/single-sell" element={<SingleSell />} />
+                    <Route path="/bulk-sell" element={<BulkSell />} />
+                    <Route path="/locations" element={<Locations />} />
+                    <Route path="/post-ad" element={<PostAd />} />
+                    <Route path="/edit-listing/:id" element={<EditListing />} />
+                    <Route path="/messages" element={<Messages />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blog/:slug" element={<BlogDetail />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/help" element={<Help />} />
+                    <Route path="/refund-policy" element={<RefundPolicy />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/posting-policy" element={<PostingPolicy />} />
+                    <Route path="/auction-policy" element={<AuctionPolicy />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/unsubscribe" element={<Unsubscribe />} />
+                  </Routes>
+                </main>
+                <Footer />
+                <BottomNav />
+              </div>
+            </Router>
+          </ToastProvider>
+        </FirebaseProvider>
       </AuthProvider>
     </ThemeProvider>
   );

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useFirebase } from '../../context/FirebaseContext';
+import { trackGTMEvent, trackFacebookEvent, trackLinkedInEvent } from '../../utils/marketingTags';
 import './Auth.css';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { trackEvent } = useFirebase();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -29,8 +32,19 @@ const Login = () => {
     const result = await login(formData.email, formData.password);
     
     if (result.success) {
+      const eventData = { method: 'email', success: true };
+      trackEvent('login', eventData);
+      
+      // Track to marketing platforms
+      trackGTMEvent('login', eventData);
+      trackFacebookEvent('CompleteRegistration');
+      trackLinkedInEvent('login');
+      
       navigate('/');
     } else {
+      const eventData = { method: 'email', error: result.error };
+      trackEvent('login_failed', eventData);
+      trackGTMEvent('login_failed', eventData);
       setError(result.error);
     }
     
